@@ -3,16 +3,608 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Prof Hanane</title>
+
+<title>Lire un graphique à double courbe - 3AC</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #eaf8ff, #ffffff);
+    color: #17324d;
+}
+
+.container {
+    width: 94%;
+    max-width: 850px;
+    margin: 20px auto;
+}
+
+.header {
+    background: linear-gradient(135deg, #087f9c, #16a085);
+    color: white;
+    padding: 22px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.header h1 {
+    margin: 0 0 10px;
+    font-size: 27px;
+}
+
+.header p {
+    margin: 5px;
+    font-size: 17px;
+}
+
+.card {
+    background: white;
+    margin-top: 18px;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+}
+
+.card h2 {
+    color: #087f9c;
+    margin-top: 0;
+}
+
+.graph {
+    width: 100%;
+    overflow-x: auto;
+    text-align: center;
+}
+
+.graph svg {
+    width: 100%;
+    max-width: 720px;
+    height: auto;
+}
+
+.question {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.option {
+    display: block;
+    padding: 13px;
+    margin: 10px 0;
+    border: 2px solid #d7e6ed;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #f9fcfd;
+    transition: 0.2s;
+}
+
+.option:hover {
+    background: #e9f8fb;
+}
+
+.option input {
+    margin-right: 8px;
+}
+
+.feedback {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: none;
+}
+
+.correct {
+    background: #dff7e8;
+    color: #18723b;
+}
+
+.incorrect {
+    background: #ffe4e4;
+    color: #b42323;
+}
+
+button {
+    border: none;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.check {
+    background: #087f9c;
+    color: white;
+}
+
+.result-button {
+    width: 100%;
+    background: #f39c12;
+    color: white;
+    font-size: 19px;
+}
+
+.restart {
+    width: 100%;
+    background: #16a085;
+    color: white;
+    display: none;
+}
+
+.score-box {
+    position: sticky;
+    top: 5px;
+    z-index: 10;
+    background: white;
+    border: 3px solid #16a085;
+    color: #087f9c;
+    text-align: center;
+    padding: 12px;
+    border-radius: 15px;
+    font-size: 21px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.result {
+    display: none;
+    text-align: center;
+    padding: 25px;
+    margin-top: 20px;
+    background: #eefaf6;
+    border-radius: 18px;
+}
+
+.final-score {
+    font-size: 38px;
+    font-weight: bold;
+    color: #087f9c;
+}
+
+.small {
+    font-size: 14px;
+    color: #607d8b;
+}
+
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .question {
+        font-size: 16px;
+    }
+
+    .option {
+        font-size: 15px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<h1>مرحبا 👋</h1>
+<div class="container">
 
-<p>Le site fonctionne correctement.</p>
+    <div class="header">
+        <h1>📈 Lire un graphique à double courbe</h1>
+        <p>SVT – 3AC | Prof Hanane</p>
+        <p>Apprendre à lire et interpréter un graphique</p>
+    </div>
 
-<p>Prof Hanane – SVT</p>
+    <div class="score-box">
+        ⭐ Score : <span id="score">0</span> / 4
+    </div>
+
+    <!-- GRAPHIQUE -->
+    <div class="card">
+        <h2>📊 Observe attentivement le graphique</h2>
+
+        <div class="graph">
+
+            <svg viewBox="0 0 700 430" xmlns="http://www.w3.org/2000/svg">
+
+                <!-- Fond -->
+                <rect x="60" y="30" width="570" height="330"
+                      fill="#f8fcfd" stroke="#b7d9e2" stroke-width="2"/>
+
+                <!-- Grille horizontale -->
+                <line x1="60" y1="360" x2="630" y2="360" stroke="#d5e5ea"/>
+                <line x1="60" y1="294" x2="630" y2="294" stroke="#d5e5ea"/>
+                <line x1="60" y1="228" x2="630" y2="228" stroke="#d5e5ea"/>
+                <line x1="60" y1="162" x2="630" y2="162" stroke="#d5e5ea"/>
+                <line x1="60" y1="96" x2="630" y2="96" stroke="#d5e5ea"/>
+                <line x1="60" y1="30" x2="630" y2="30" stroke="#d5e5ea"/>
+
+                <!-- Axes -->
+                <line x1="60" y1="360" x2="630" y2="360"
+                      stroke="#17324d" stroke-width="3"/>
+                <line x1="60" y1="360" x2="60" y2="30"
+                      stroke="#17324d" stroke-width="3"/>
+
+                <!-- Axe Y -->
+                <text x="15" y="365" font-size="15">0</text>
+                <text x="25" y="299" font-size="15">20</text>
+                <text x="25" y="233" font-size="15">40</text>
+                <text x="25" y="167" font-size="15">60</text>
+                <text x="25" y="101" font-size="15">80</text>
+                <text x="18" y="35" font-size="15">100</text>
+
+                <!-- Axe X -->
+                <text x="82" y="385" font-size="14">0</text>
+                <text x="187" y="385" font-size="14">5</text>
+                <text x="295" y="385" font-size="14">10</text>
+                <text x="400" y="385" font-size="14">15</text>
+                <text x="505" y="385" font-size="14">20</text>
+                <text x="610" y="385" font-size="14">25</text>
+
+                <!-- Nom axe X -->
+                <text x="285" y="415" font-size="16" font-weight="bold">
+                    Temps (min)
+                </text>
+
+                <!-- Nom axe Y -->
+                <text x="18" y="190"
+                      transform="rotate(-90 18 190)"
+                      font-size="16"
+                      font-weight="bold">
+                    Valeur
+                </text>
+
+                <!-- Courbe orange : augmente -->
+                <polyline
+                    points="82,327 187,294 295,228 400,162 505,96 610,63"
+                    fill="none"
+                    stroke="#f39c12"
+                    stroke-width="5"/>
+
+                <!-- Points orange -->
+                <circle cx="82" cy="327" r="6" fill="#f39c12"/>
+                <circle cx="187" cy="294" r="6" fill="#f39c12"/>
+                <circle cx="295" cy="228" r="6" fill="#f39c12"/>
+                <circle cx="400" cy="162" r="6" fill="#f39c12"/>
+                <circle cx="505" cy="96" r="6" fill="#f39c12"/>
+                <circle cx="610" cy="63" r="6" fill="#f39c12"/>
+
+                <!-- Courbe bleue : diminue -->
+                <polyline
+                    points="82,63 187,96 295,162 400,228 505,294 610,327"
+                    fill="none"
+                    stroke="#087f9c"
+                    stroke-width="5"/>
+
+                <!-- Points bleus -->
+                <circle cx="82" cy="63" r="6" fill="#087f9c"/>
+                <circle cx="187" cy="96" r="6" fill="#087f9c"/>
+                <circle cx="295" cy="162" r="6" fill="#087f9c"/>
+                <circle cx="400" cy="228" r="6" fill="#087f9c"/>
+                <circle cx="505" cy="294" r="6" fill="#087f9c"/>
+                <circle cx="610" cy="327" r="6" fill="#087f9c"/>
+
+            </svg>
+
+        </div>
+
+        <p class="small">
+            🟠 Courbe orange &nbsp;&nbsp; 🔵 Courbe bleue
+        </p>
+    </div>
+
+    <!-- QUESTION 1 -->
+    <div class="card">
+        <div class="question">
+            1️⃣ Quelle variable est représentée sur l’axe horizontal (X) ?
+        </div>
+
+        <label class="option">
+            <input type="radio" name="q1" value="a">
+            La valeur
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q1" value="b">
+            Le temps
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q1" value="c">
+            La température
+        </label>
+
+        <button class="check" onclick="corriger(1)">Vérifier</button>
+        <div id="feedback1" class="feedback"></div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="card">
+        <div class="question">
+            2️⃣ Quelle est la valeur de la courbe orange à 10 minutes ?
+        </div>
+
+        <label class="option">
+            <input type="radio" name="q2" value="a">
+            20
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q2" value="b">
+            40
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q2" value="c">
+            80
+        </label>
+
+        <button class="check" onclick="corriger(2)">Vérifier</button>
+        <div id="feedback2" class="feedback"></div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="card">
+        <div class="question">
+            3️⃣ Comment évolue la courbe orange ?
+        </div>
+
+        <label class="option">
+            <input type="radio" name="q3" value="a">
+            Elle augmente.
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q3" value="b">
+            Elle diminue.
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q3" value="c">
+            Elle reste constante.
+        </label>
+
+        <button class="check" onclick="corriger(3)">Vérifier</button>
+        <div id="feedback3" class="feedback"></div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="card">
+        <div class="question">
+            4️⃣ Que peut-on dire des deux courbes entre 0 et 25 minutes ?
+        </div>
+
+        <label class="option">
+            <input type="radio" name="q4" value="a">
+            Les deux courbes augmentent.
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q4" value="b">
+            La courbe orange augmente tandis que la courbe bleue diminue.
+        </label>
+
+        <label class="option">
+            <input type="radio" name="q4" value="c">
+            Les deux courbes diminuent.
+        </label>
+
+        <button class="check" onclick="corriger(4)">Vérifier</button>
+        <div id="feedback4" class="feedback"></div>
+    </div>
+
+    <!-- RESULTAT -->
+    <div class="card">
+        <button class="result-button" onclick="afficherResultat()">
+            🎯 Voir le résultat
+        </button>
+
+        <div id="resultat" class="result">
+            <h2>🎉 Résultat</h2>
+
+            <div class="final-score">
+                <span id="scoreFinal">0</span> / 4
+            </div>
+
+            <p id="message"></p>
+
+            <button class="restart" id="restartBtn" onclick="recommencer()">
+                🔄 Recommencer
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+let score = 0;
+
+let dejaCorrige = {
+    1: false,
+    2: false,
+    3: false,
+    4: false
+};
+
+const bonnesReponses = {
+    1: "b",
+    2: "b",
+    3: "a",
+    4: "b"
+};
+
+const explications = {
+    1: "✅ Correct ! L’axe horizontal représente le temps en minutes.",
+
+    2: "❌ Attention : à 10 minutes, la courbe orange indique une valeur de 40.",
+
+    3: "❌ Observe la courbe orange : elle monte progressivement. Elle augmente.",
+
+    4: "❌ La courbe orange augmente tandis que la courbe bleue diminue."
+};
+
+function corriger(numero) {
+
+    if (dejaCorrige[numero]) {
+        return;
+    }
+
+    const choix = document.querySelector(
+        'input[name="q' + numero + '"]:checked'
+    );
+
+    const feedback = document.getElementById(
+        "feedback" + numero
+    );
+
+    if (!choix) {
+
+        feedback.style.display = "block";
+        feedback.className = "feedback incorrect";
+        feedback.textContent = "⚠️ Choisis une réponse avant de vérifier.";
+
+        return;
+    }
+
+    dejaCorrige[numero] = true;
+
+    if (choix.value === bonnesReponses[numero]) {
+
+        score++;
+
+        feedback.style.display = "block";
+        feedback.className = "feedback correct";
+
+        if (numero === 1) {
+            feedback.textContent =
+                "✅ Correct ! L’axe horizontal représente le temps.";
+        }
+
+        if (numero === 2) {
+            feedback.textContent =
+                "✅ Correct ! À 10 minutes, la courbe orange indique 40.";
+        }
+
+        if (numero === 3) {
+            feedback.textContent =
+                "✅ Correct ! La courbe orange augmente.";
+        }
+
+        if (numero === 4) {
+            feedback.textContent =
+                "✅ Correct ! Orange augmente et bleue diminue.";
+        }
+
+        document.getElementById("score").textContent = score;
+
+    } else {
+
+        feedback.style.display = "block";
+        feedback.className = "feedback incorrect";
+
+        if (numero === 1) {
+            feedback.textContent =
+                "❌ Incorrect. L’axe horizontal représente le temps.";
+        }
+
+        if (numero === 2) {
+            feedback.textContent =
+                "❌ Incorrect. À 10 minutes, la courbe orange indique 40.";
+        }
+
+        if (numero === 3) {
+            feedback.textContent =
+                "❌ Incorrect. La courbe orange augmente.";
+        }
+
+        if (numero === 4) {
+            feedback.textContent =
+                "❌ Incorrect. Orange augmente tandis que bleue diminue.";
+        }
+    }
+}
+
+function afficherResultat() {
+
+    const resultat = document.getElementById("resultat");
+    const scoreFinal = document.getElementById("scoreFinal");
+    const message = document.getElementById("message");
+    const restartBtn = document.getElementById("restartBtn");
+
+    resultat.style.display = "block";
+
+    scoreFinal.textContent = score;
+
+    if (score === 4) {
+
+        message.textContent =
+            "🌟 Excellent ! Tu maîtrises la lecture d’un graphique à double courbe.";
+
+    } else if (score === 3) {
+
+        message.textContent =
+            "👏 Très bien ! Encore un petit effort pour maîtriser parfaitement la méthode.";
+
+    } else if (score === 2) {
+
+        message.textContent =
+            "👍 Bien ! Relis le graphique et essaie encore.";
+
+    } else {
+
+        message.textContent =
+            "💪 Courage ! Observe les axes, les valeurs et l’évolution des courbes puis recommence.";
+    }
+
+    restartBtn.style.display = "block";
+
+    resultat.scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function recommencer() {
+
+    score = 0;
+
+    document.getElementById("score").textContent = "0";
+
+    for (let i = 1; i <= 4; i++) {
+
+        dejaCorrige[i] = false;
+
+        const feedback =
+            document.getElementById("feedback" + i);
+
+        feedback.style.display = "none";
+
+        const choix =
+            document.querySelectorAll(
+                'input[name="q' + i + '"]'
+            );
+
+        choix.forEach(function(input) {
+            input.checked = false;
+            input.disabled = false;
+        });
+    }
+
+    document.getElementById("resultat").style.display = "none";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+</script>
 
 </body>
 </html>
